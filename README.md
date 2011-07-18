@@ -6,7 +6,7 @@ draw charts of it.
 
 For example, a chart of commit counts by day for devs:
     
-![](https://github.com/jaymzcd/GitGraphs/blob/master/example.png) 
+![](https://github.com/jaymzcd/GitGraphs/raw/master/example.png) 
     
 ## Typical usage
     
