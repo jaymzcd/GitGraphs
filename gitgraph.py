@@ -1,6 +1,6 @@
 
-def draw_charts(counts, names, uid=None):
-    from pylab import bar
+def draw_charts(counts, names, uid=None, filename=None, show_legend=True):
+    from pylab import bar, savefig, legend
     from numpy import array, zeros
 
     cols = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'cyan']
@@ -10,7 +10,7 @@ def draw_charts(counts, names, uid=None):
         col_range = range(uid, uid+1)
     else:
         col_range = range(data.shape[1])
-    
+
     charts = list()
     for i in col_range:
         bottom = zeros(data.shape[0])
@@ -18,7 +18,13 @@ def draw_charts(counts, names, uid=None):
             for col in range(i):
                 bottom += data[:, col]
         charts.append(bar(counts.keys(), data[: ,i], color=cols[i], bottom=bottom, label=names[i]))
-        
+
+    if show_legend:
+        legend()
+
+    if filename is not None:
+        savefig(filename)
+
     return charts
 
 def user_list(raw_log, name_trim=3):
@@ -30,17 +36,17 @@ def user_list(raw_log, name_trim=3):
     from datetime import datetime
     from pylab import bar
     import sys
-    
+
     DATE_LEN = len('2011-07-13')
     USER_OFFSET = len('2011-07-14 11:44:50 +0100 ')
-    
+
     def dt_str(date):
         return datetime.strptime(date, '%Y-%m-%d')
 
     names = set([x[USER_OFFSET:][:name_trim].lower() for x in raw_log])
     names = list(names)
     date_range = set([dt_str(x[:DATE_LEN]) for x in raw_log])
-    
+
     user_commits = dict()
     for name in names:
         user_commits.update({
